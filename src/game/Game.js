@@ -202,6 +202,11 @@ export class Game {
             b.draw(this.ctx);
         }
 
+        // Player missiles
+        for (const m of this.state.playerMissiles) {
+            m.draw(this.ctx);
+        }
+
         // Enemy bullets
         for (const b of this.state.enemyBullets) {
             b.draw(this.ctx);

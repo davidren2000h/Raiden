@@ -16,6 +16,7 @@ export class StageManager {
         this.waves = getStage1Waves();
         this.waveIndex = 0;
         this.loopOffset = 0;
+        this.bossLevel = 0;  // increments each loop, caps at 4
     }
 
     update(dt) {
@@ -28,7 +29,7 @@ export class StageManager {
             const wave = this.waves[this.waveIndex];
             for (const sp of wave.spawns) {
                 if (wave.boss) {
-                    this.spawnSystem.spawnBoss(sp.x, sp.y, sp.pattern);
+                    this.spawnSystem.spawnBoss(sp.x, sp.y, sp.pattern, this.bossLevel);
                 } else {
                     this.spawnSystem.spawnEnemy(sp.x, sp.y, sp.config, sp.pattern);
                 }
@@ -41,6 +42,9 @@ export class StageManager {
             const lastWaveTime = this.waves[this.waves.length - 1].time;
             this.loopOffset += lastWaveTime + 8; // 8s gap before loop
             this.waveIndex = 0;
+            if (this.bossLevel < 4) {
+                this.bossLevel++;
+            }
         }
     }
 }

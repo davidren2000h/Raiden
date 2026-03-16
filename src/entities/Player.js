@@ -7,6 +7,8 @@ import {
     CANVAS_WIDTH, CANVAS_HEIGHT,
     PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_SPEED,
     PLAYER_FIRE_RATE, PLAYER_INVINCIBLE_DURATION,
+    PLAYER_MAX_HP, PLAYER_MAX_POWER_LEVEL,
+    MISSILE_FIRE_RATE,
     COLOR_PLAYER,
 } from '../utils/constants.js';
 import { clamp } from '../utils/math.js';
@@ -20,18 +22,29 @@ export class Player extends Entity {
         this.fireTimer = 0;
         this.fireRate = PLAYER_FIRE_RATE;
         this.invincibleTimer = PLAYER_INVINCIBLE_DURATION;
-        this.powerLevel = 0;  // 0 = single, 1 = double, 2 = triple
+        this.hp = PLAYER_MAX_HP;
+        this.maxHp = PLAYER_MAX_HP;
+        this.powerLevel = 0;  // 0-6, see PRD weapon upgrade table
+        this.gunTier = 0;     // 0-2 (tiers 1-3)
+        this.missileTier = 0; // 0-2 (tiers 1-3)
+        this.missileTimer = 0;
     }
 
     get isInvincible() {
         return this.invincibleTimer > 0;
     }
 
-    /** Called by CollisionSystem when the player is hit. */
+    /** Called by CollisionSystem when the player is hit. Returns true if the player lost a life. */
     hit() {
         if (this.isInvincible) return false;
-        this.active = false;
-        return true;
+        this.hp--;
+        if (this.hp <= 0) {
+            this.active = false;
+            return true;
+        }
+        // Brief invincibility flash on damage
+        this.invincibleTimer = 0.5;
+        return false;
     }
 
     /** Respawn in place with temporary invincibility. */
@@ -40,7 +53,10 @@ export class Player extends Entity {
         this.y = CANVAS_HEIGHT - 80;
         this.active = true;
         this.invincibleTimer = PLAYER_INVINCIBLE_DURATION;
+        this.hp = PLAYER_MAX_HP;
         this.powerLevel = 0;
+        this.gunTier = 0;
+        this.missileTier = 0;
     }
 
     update(dt) {
@@ -73,11 +89,21 @@ export class Player extends Entity {
             this.invincibleTimer -= dt;
         }
 
-        // Auto-fire
+        // Auto-fire bullets
         this.fireTimer -= dt;
         if (this.fireTimer <= 0) {
             this.fireTimer = this.fireRate;
-            this.bulletManager.firePlayerBullet(this.x, this.y, this.powerLevel);
+            this.bulletManager.firePlayerBullet(this.x, this.y, this.powerLevel, this.gunTier);
+        }
+
+        // Auto-fire missiles (power level 3+)
+        if (this.powerLevel >= 3) {
+            this.missileTimer -= dt;
+            if (this.missileTimer <= 0) {
+                this.missileTimer = MISSILE_FIRE_RATE;
+                const missileCount = this.powerLevel - 2; // 1-4 missiles
+                this.bulletManager.firePlayerMissiles(this.x, this.y, missileCount, this.missileTier);
+            }
         }
     }
 

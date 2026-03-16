@@ -23,6 +23,7 @@ export class GameState {
         this.lives = PLAYER_MAX_LIVES;
         this.player = null;
         this.playerBullets = [];
+        this.playerMissiles = [];
         this.enemyBullets = [];
         this.enemies = [];
         this.explosions = [];

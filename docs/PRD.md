@@ -114,5 +114,44 @@ raiden-clone/
 4. Ensure all code is consistent and can run directly
 5. If image assets are temporarily unavailable, use simple geometric shapes drawn with Canvas as placeholders, and mention this in the explanation
 
-## Improvements
+## Improvements After Ver.1.0
 
+1. **Life counter display** — Show the player's remaining lives on screen. The default starting lives is 3.
+2. **Health indicator display** — Show the player's current health on screen (e.g., a health bar or numeric value) so the player can see how much damage they can still take before losing a life.
+3. **Health and life pick-up items** — Add collectible items that the player aircraft can pick up during gameplay to restore health or gain an extra life.
+4. **Weapons upgrade system** — The weapon system has two independent dimensions: **count** (how many guns/missiles) and **tier** (damage and appearance). Both upgrade via power-up pickups.
+
+   **Gun system:**
+   - Count progression (weapon power-up): 1 gun → 2 guns → 3 guns.
+   - Tier progression (gun-tier power-up):
+     - **Tier 1 (White)** — Damage 1 per bullet (default).
+     - **Tier 2 (Blue)** — Damage 2 per bullet (double Tier 1).
+     - **Tier 3 (Red)** — Damage 4 per bullet (double Tier 2).
+
+   **Missile system:**
+   - Count progression (weapon power-up, after reaching 3 guns): 1 missile → 2 missiles → 3 missiles → 4 missiles (max).
+   - Tier progression (missile-tier power-up):
+     - **Tier 1 (White)** — Base damage (default).
+     - **Tier 2 (Blue)** — Double the damage of Tier 1.
+     - **Tier 3 (Red)** — Double the damage of Tier 2.
+   - All tiers share the same display size; tier is indicated by missile color.
+   - Homing missiles automatically track and chase the nearest enemy on screen.
+
+   **Overall power-up sequence (count):**
+   Level 1 → 1 gun | Level 2 → 2 guns | Level 3 → 3 guns | Level 4 → 3 guns + 1 missile | Level 5 → +2 missiles | Level 6 → +3 missiles | Level 7 (max) → +4 missiles.
+   Gun tier and missile tier upgrade independently on top of this progression.
+5. **Boss levels** — There are 5 boss levels, each with increasing difficulty and a distinct visual appearance:
+   - **Boss Level 1** — Base HP (current boss). Small hexagonal shape.
+   - **Boss Level 2** — 2× the HP of Boss Level 1. Larger body with wing extensions.
+   - **Boss Level 3** — 3× the HP of Boss Level 1. Armored hull with dual cannons.
+   - **Boss Level 4** — 4× the HP of Boss Level 1. Heavy battleship with shield plating.
+   - **Boss Level 5** — 5× the HP of Boss Level 1. Final form with multi-segment body.
+   - Each boss level uses a different visual design (drawn with Canvas shapes) to clearly distinguish them from one another.
+
+   | Level | HP  | Score  | Color    | Visual                                |
+   |-------|-----|--------|----------|---------------------------------------|
+   | 1     | 60  | 5,000  | Pink     | Simple hexagon                        |
+   | 2     | 120 | 12,000 | Purple   | Hexagon with wing extensions          |
+   | 3     | 180 | 20,000 | Orange   | Armored hull with dual cannons        |
+   | 4     | 240 | 30,000 | Teal     | Heavy battleship with shield plating  |
+   | 5     | 300 | 50,000 | Deep Red | Multi-segment final form              |

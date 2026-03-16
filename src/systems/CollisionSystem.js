@@ -17,6 +17,7 @@ export class CollisionSystem {
      */
     update(scoreSystem, spawnSystem) {
         this._playerBulletsVsEnemies(scoreSystem, spawnSystem);
+        this._playerMissilesVsEnemies(scoreSystem, spawnSystem);
         this._enemyBulletsVsPlayer();
         this._enemiesVsPlayer();
         this._playerVsPowerUps();
@@ -45,6 +46,34 @@ export class CollisionSystem {
                         enemies.splice(ei, 1);
                     }
                     break; // bullet consumed
+                }
+            }
+        }
+    }
+
+    // ── player missiles → enemies ───────────────────────
+    _playerMissilesVsEnemies(scoreSystem, spawnSystem) {
+        const missiles = this.state.playerMissiles;
+        const enemies = this.state.enemies;
+
+        for (let mi = missiles.length - 1; mi >= 0; mi--) {
+            const missile = missiles[mi];
+            if (!missile.active) continue;
+
+            for (let ei = enemies.length - 1; ei >= 0; ei--) {
+                const enemy = enemies[ei];
+                if (!enemy.active) continue;
+
+                if (rectsOverlap(missile.getRect(), enemy.getRect())) {
+                    missile.active = false;
+                    const destroyed = enemy.takeDamage(missile.damage);
+                    if (destroyed) {
+                        this.state.explosions.push(new Explosion(enemy.x, enemy.y));
+                        scoreSystem.addScore(enemy.score);
+                        spawnSystem.trySpawnPowerUp(enemy.x, enemy.y);
+                        enemies.splice(ei, 1);
+                    }
+                    break;
                 }
             }
         }
@@ -115,9 +144,22 @@ export class CollisionSystem {
     }
 
     _applyPowerUp(player, powerUp) {
-        if (powerUp.type === POWERUP_TYPE.WEAPON) {
-            if (player.powerLevel < 2) {
+        if (powerUp.type === POWERUP_TYPE.HEALTH) {
+            player.hp = Math.min(player.hp + 2, player.maxHp);
+        } else if (powerUp.type === POWERUP_TYPE.LIFE) {
+            this.state.lives++;
+            player.hp = player.maxHp;
+        } else if (powerUp.type === POWERUP_TYPE.WEAPON) {
+            if (player.powerLevel < 6) {
                 player.powerLevel++;
+            }
+        } else if (powerUp.type === POWERUP_TYPE.GUN_TIER) {
+            if (player.gunTier < 2) {
+                player.gunTier++;
+            }
+        } else if (powerUp.type === POWERUP_TYPE.MISSILE_TIER) {
+            if (player.missileTier < 2) {
+                player.missileTier++;
             }
         }
     }
