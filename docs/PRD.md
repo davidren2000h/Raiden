@@ -140,18 +140,18 @@ raiden-clone/
    **Overall power-up sequence (count):**
    Level 1 → 1 gun | Level 2 → 2 guns | Level 3 → 3 guns | Level 4 → 3 guns + 1 missile | Level 5 → +2 missiles | Level 6 → +3 missiles | Level 7 (max) → +4 missiles.
    Gun tier and missile tier upgrade independently on top of this progression.
-5. **Boss levels** — There are 5 boss levels, each with increasing difficulty and a distinct visual appearance:
-   - **Boss Level 1** — Base HP (current boss). Small hexagonal shape.
+5. **Boss levels** — There are 5 boss levels, each with increasing difficulty and a distinct visual appearance. Each level doubles the HP of the previous level:
+   - **Boss Level 1** — Base HP. Small hexagonal shape.
    - **Boss Level 2** — 2× the HP of Boss Level 1. Larger body with wing extensions.
-   - **Boss Level 3** — 3× the HP of Boss Level 1. Armored hull with dual cannons.
-   - **Boss Level 4** — 4× the HP of Boss Level 1. Heavy battleship with shield plating.
-   - **Boss Level 5** — 5× the HP of Boss Level 1. Final form with multi-segment body.
+   - **Boss Level 3** — 2× the HP of Boss Level 2. Armored hull with dual cannons.
+   - **Boss Level 4** — 2× the HP of Boss Level 3. Heavy battleship with shield plating.
+   - **Boss Level 5** — 2× the HP of Boss Level 4. Final form with multi-segment body.
    - Each boss level uses a different visual design (drawn with Canvas shapes) to clearly distinguish them from one another.
 
-   | Level | HP  | Score  | Color    | Visual                                |
-   |-------|-----|--------|----------|---------------------------------------|
-   | 1     | 60  | 5,000  | Pink     | Simple hexagon                        |
-   | 2     | 120 | 12,000 | Purple   | Hexagon with wing extensions          |
-   | 3     | 180 | 20,000 | Orange   | Armored hull with dual cannons        |
-   | 4     | 240 | 30,000 | Teal     | Heavy battleship with shield plating  |
-   | 5     | 300 | 50,000 | Deep Red | Multi-segment final form              |
+   | Level | HP   | Score  | Color    | Visual                                |
+   |-------|------|--------|----------|---------------------------------------|
+   | 1     | 6000   | 5,000  | Pink     | Simple hexagon                        |
+   | 2     | 24000  | 12,000 | Purple   | Hexagon with wing extensions          |
+   | 3     | 48000  | 20,000 | Orange   | Armored hull with dual cannons        |
+   | 4     | 96000  | 30,000 | Teal     | Heavy battleship with shield plating  |
+   | 5     | 192000 | 50,000 | Deep Red | Multi-segment final form              |

@@ -41,6 +41,7 @@ export class Game {
         this.spawnSystem = new SpawnSystem(this.state);
         this.scoreSystem = new ScoreSystem(this.state);
         this.audioSystem = new AudioSystem();
+        this.state.audioSystem = this.audioSystem;
         this.stageManager = new StageManager(this.state, this.spawnSystem);
 
         // UI
@@ -182,6 +183,7 @@ export class Game {
         // Check game over
         if (this.state.lives <= 0 && (!this.state.player || !this.state.player.active)) {
             this.state.status = STATE.GAME_OVER;
+            this.audioSystem.play('gameOver');
             if (this.state.score > this.state.highScore) {
                 this.state.highScore = this.state.score;
             }

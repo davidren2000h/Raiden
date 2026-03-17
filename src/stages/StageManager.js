@@ -30,6 +30,9 @@ export class StageManager {
             for (const sp of wave.spawns) {
                 if (wave.boss) {
                     this.spawnSystem.spawnBoss(sp.x, sp.y, sp.pattern, this.bossLevel);
+                    if (this.state.audioSystem) {
+                        this.state.audioSystem.play('bossAppear');
+                    }
                 } else {
                     this.spawnSystem.spawnEnemy(sp.x, sp.y, sp.config, sp.pattern);
                 }

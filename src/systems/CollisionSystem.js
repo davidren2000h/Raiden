@@ -44,6 +44,9 @@ export class CollisionSystem {
                         scoreSystem.addScore(enemy.score);
                         spawnSystem.trySpawnPowerUp(enemy.x, enemy.y);
                         enemies.splice(ei, 1);
+                        this._playSound('explosion');
+                    } else {
+                        this._playSound('enemyHit');
                     }
                     break; // bullet consumed
                 }
@@ -72,6 +75,7 @@ export class CollisionSystem {
                         scoreSystem.addScore(enemy.score);
                         spawnSystem.trySpawnPowerUp(enemy.x, enemy.y);
                         enemies.splice(ei, 1);
+                        this._playSound('explosion');
                     }
                     break;
                 }
@@ -94,7 +98,10 @@ export class CollisionSystem {
                 const wasHit = player.hit();
                 if (wasHit) {
                     this.state.explosions.push(new Explosion(player.x, player.y));
+                    this._playSound('playerDeath');
                     this._handlePlayerDeath();
+                } else {
+                    this._playSound('playerHit');
                 }
             }
         }
@@ -119,6 +126,7 @@ export class CollisionSystem {
                 const wasHit = player.hit();
                 if (wasHit) {
                     this.state.explosions.push(new Explosion(player.x, player.y));
+                    this._playSound('playerDeath');
                     this._handlePlayerDeath();
                 }
                 break;
@@ -139,6 +147,7 @@ export class CollisionSystem {
                 pu.active = false;
                 this.state.powerUps.splice(i, 1);
                 this._applyPowerUp(player, pu);
+                this._playSound('powerUp');
             }
         }
     }
@@ -169,6 +178,12 @@ export class CollisionSystem {
         if (this.state.lives > 0) {
             // Respawn after a brief moment (handled immediately for simplicity)
             this.state.player.respawn();
+        }
+    }
+
+    _playSound(name) {
+        if (this.state.audioSystem) {
+            this.state.audioSystem.play(name);
         }
     }
 }

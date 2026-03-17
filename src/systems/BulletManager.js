@@ -9,7 +9,7 @@ import {
     GUN_TIER_COLORS, GUN_TIER_DAMAGE,
     ENEMY_BULLET_WIDTH, ENEMY_BULLET_HEIGHT,
     ENEMY_BULLET_SPEED, COLOR_ENEMY_BULLET,
-    MISSILE_TIER_DAMAGE, MISSILE_TIER_COLORS,
+    MISSILE_TIER_DAMAGE, MISSILE_TIER_SCALE,
 } from '../utils/constants.js';
 
 export class BulletManager {
@@ -37,16 +37,16 @@ export class BulletManager {
             list.push(new Bullet(x, y - 10, 0, spd,
                 PLAYER_BULLET_WIDTH, PLAYER_BULLET_HEIGHT, damage, color));
         } else if (bulletLines === 2) {
-            list.push(new Bullet(x - 8, y - 10, 0, spd,
+            list.push(new Bullet(x - 6, y - 10, 0, spd,
                 PLAYER_BULLET_WIDTH, PLAYER_BULLET_HEIGHT, damage, color));
-            list.push(new Bullet(x + 8, y - 10, 0, spd,
+            list.push(new Bullet(x + 6, y - 10, 0, spd,
                 PLAYER_BULLET_WIDTH, PLAYER_BULLET_HEIGHT, damage, color));
         } else {
             list.push(new Bullet(x, y - 10, 0, spd,
                 PLAYER_BULLET_WIDTH, PLAYER_BULLET_HEIGHT, damage, color));
-            list.push(new Bullet(x - 14, y - 6, -50, spd,
+            list.push(new Bullet(x - 10, y - 6, -40, spd,
                 PLAYER_BULLET_WIDTH, PLAYER_BULLET_HEIGHT, damage, color));
-            list.push(new Bullet(x + 14, y - 6, 50, spd,
+            list.push(new Bullet(x + 10, y - 6, 40, spd,
                 PLAYER_BULLET_WIDTH, PLAYER_BULLET_HEIGHT, damage, color));
         }
     }
@@ -65,11 +65,11 @@ export class BulletManager {
         const totalSpread = (count - 1) * spread;
         const startAngle = baseAngle - totalSpread / 2;
         const damage = MISSILE_TIER_DAMAGE[missileTier] || 3;
-        const color = MISSILE_TIER_COLORS[missileTier] || '#FFFFFF';
+        const scale = MISSILE_TIER_SCALE[missileTier] || 1;
 
         for (let i = 0; i < count; i++) {
             const angle = startAngle + i * spread;
-            list.push(new Missile(x, y - 10, angle, damage, color));
+            list.push(new Missile(x, y - 10, angle, damage, scale));
         }
     }
 

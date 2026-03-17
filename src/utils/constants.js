@@ -73,11 +73,11 @@ export const ENEMY_BULLET_SPEED = 240;
 export const BOSS_WIDTH = 80;
 export const BOSS_HEIGHT = 60;
 export const BOSS_SPEED = 60;
-export const BOSS_BASE_HP = 60;
+export const BOSS_BASE_HP = 60000;
 export const BOSS_SCORE = 5000;
 export const BOSS_FIRE_RATE = 0.6;
 export const BOSS_MAX_LEVEL = 5;
-export const BOSS_LEVEL_HP_MULTIPLIER = [1, 2, 3, 4, 5];  // level 1-5
+export const BOSS_LEVEL_HP_MULTIPLIER = [1, 4, 8, 16, 32];  // level 1-5
 export const BOSS_LEVEL_SCORE = [5000, 12000, 20000, 30000, 50000];
 export const BOSS_LEVEL_COLORS = ['#E91E63', '#9C27B0', '#FF6D00', '#00BFA5', '#D50000'];
 
